@@ -1,0 +1,16 @@
+.popular-section {
+    border: 5px solid #ffc400;
+}
+
+.top-plate-movies {
+    width: 200px;
+}
+
+.title-hover:hover {
+    color: #2600ff;
+}
+
+.titel-hover {
+    color: #d000ff;
+    font-size: bold;
+}
