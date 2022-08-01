@@ -10,7 +10,7 @@ const Movie = ({ movie, loading }) => {
     }
     const navigate = useNavigate();
     const movieView = id => {
-        navigate(`/${id}`);
+        navigate(`/movie/${id}`);
     };
     return (
         <div onClick={() => movieView(_id)} className="card w-96 shadow-xl hover:font-semiBold"

@@ -9,7 +9,7 @@ const PopularMovie = ({ movie, loading }) => {
     }
     const { name, Genres, date, author, thumbnail, _id } = movie;
     const movieView = name => {
-        navigate(`/${name}`);
+        navigate(`/movie/${name}`);
     };
     return (
 

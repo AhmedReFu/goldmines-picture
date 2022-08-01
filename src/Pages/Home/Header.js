@@ -1,10 +1,18 @@
 import axios from 'axios';
+import { signOut } from 'firebase/auth';
 import React, { useRef, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import auth from '../../firebase.init';
 import logo from '../../img/logo.webp'
+import Loading from '../Loading/Loading';
 
 const Header = () => {
-
+    const [user] = useAuthState(auth);
+    const logout = () => {
+        signOut(auth)
+        localStorage.removeItem('accessToken');
+    }
     const menu = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/category/Tamil'>Tamil</Link></li>
@@ -13,24 +21,35 @@ const Header = () => {
         <li><Link to='/category/Hindi'>Hindi</Link></li>
         <li><Link to='/category/Kannada'>Kannada</Link></li>
         <li><Link to='/category/English'>English</Link></li>
-        <li><Link to='/category/Hindi-dubbed'>Hindi Dubbed</Link></li>
+        <li><Link to='/category/Hindi Dubbed'>Hindi Dubbed</Link></li>
+        {user ?
+            <>
+                <button onClick={logout} className='btn btn-ghost'><Link to=''>Sign Out</Link></button>
+            </>
+            :
+            <>
+                <li><Link to='/login'>Login</Link></li>
+            </>
+        }
     </>
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
     const movieView = id => {
         if (id === "undefined") {
             navigate(`/`);
         } else {
-            navigate(`/${id}`);
+            navigate(`/movie/${id}`);
         }
     };
+
     const searchText = useRef('');
     const searchBox = (text) => {
         let name = searchText.current.value;
         const fetchPosts = async () => {
             setLoading(true);
-            const res = await axios.get(`https://shielded-beach-52215.herokuapp.com/search?search=${name}`);
+            const res = await axios.get(`https://movies.goldminespicture.xyz/search?search=${name}`);
             setMovies(res.data);
             setLoading(false);
         };
@@ -55,12 +74,12 @@ const Header = () => {
             </div>
             <div className="navbar-end">
                 <div className="dropdown">
-                    <input tabIndex='0' autocomplete="off" onChange={searchBox} ref={searchText} type="text" name='search' placeholder="Search Movie Name" className="input w-96 input-bordered" />
-                    <ul tabIndex='0' class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-96 h-52 overflow-auto touch-auto ">
+                    <input tabIndex='0' autocomplete="off" onChange={searchBox} ref={searchText} type="text" name='search' placeholder="Search Movie Name" className="input w-72 input-bordered" />
+                    <ul tabIndex='0' class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-72 h-52 overflow-auto touch-auto ">
                         {movies.map(movie =>
                             <li onClick={() => movieView(movie._id)}>
                                 <div className="avatar">
-                                    <div class="w-24 rounded-xl">
+                                    <div class="w-30 rounded-xl">
                                         <img src={movie.thumbnail} alt={movie.name} />
                                     </div>
                                     <p>{movie.name}</p>

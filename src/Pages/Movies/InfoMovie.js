@@ -6,13 +6,14 @@ import Loading from '../Loading/Loading';
 
 const InfoMovie = () => {
     const { name } = useParams();
+
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchPosts = async () => {
             setLoading(true);
-            const res = await axios.get(`https://shielded-beach-52215.herokuapp.com/movies/${name}`);
+            const res = await axios.get(`https://movies.goldminespicture.xyz/movies/${name}`);
 
             setMovies(res.data);
             setLoading(false);

@@ -10,7 +10,7 @@ const Popular = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             setLoading(true);
-            const res = await axios.get('https://shielded-beach-52215.herokuapp.com/movies');
+            const res = await axios.get('https://movies.goldminespicture.xyz/movies');
             setMovies(res.data);
             setLoading(false);
         };
